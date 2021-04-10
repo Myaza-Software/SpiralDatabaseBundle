@@ -1,0 +1,48 @@
+{
+  "name": "myaza-software/spiral-database-bundle",
+  "type": "symfony-bundle",
+  "description": "Bundle spiral-database for symfony",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Vlad Shashkov",
+      "email": "root@myaza.info"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "Spiral\\Bundle\\Database\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Spiral\\Bundle\\Database\\Test\\": "tests/"
+    }
+  },
+  "require": {
+    "php": ">=7.2",
+    "myaza-software/bridge-spiral-core": "@dev",
+    "spiral/database": "^2.8.4",
+    "symfony/config": "^4.3.3 || ^5.0",
+    "symfony/console": "^4.3.3 || ^5.0",
+    "symfony/dependency-injection": "^4.3.3 || ^5.0",
+    "symfony/framework-bundle": "^4.3.3 || ^5.0",
+    "symfony/http-kernel": "^4.3.3 || ^5.0"
+  },
+  "require-dev": {
+    "friendsofphp/php-cs-fixer": "^2.18",
+    "phpunit/phpunit": "^9.5",
+    "symfony/yaml": "^4.3.3 || ^5.0",
+    "twig/twig": "^2.12|^3.0",
+    "symfony/web-profiler-bundle": "^4.3.3|^5.0"
+  },
+  "config": {
+    "sort-packages": true
+  },
+  "repositories": [
+    {
+      "type": "vcs",
+      "url": "git@github.com:root-aza/BridgeSpiralCore.git"
+    }
+  ]
+}

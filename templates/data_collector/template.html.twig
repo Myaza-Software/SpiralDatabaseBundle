@@ -1,0 +1,58 @@
+{% extends '@WebProfiler/Profiler/layout.html.twig' %}
+
+{% block toolbar %}
+    {% set icon %}
+        <span class="sf-toolbar-value" style="fill: #aaa">
+            {{ include('@SpiralDatabase/data_collector/icon.svg') }}
+            Spiral Database
+        </span>
+    {% endset %}
+
+    {% set text %}
+        <div class="sf-toolbar-info-piece">
+            <b>Count read query</b>
+            <span class="sf-toolbar-status">{{ collector.dump.countReadQuery }}</span>
+        </div>
+        <div class="sf-toolbar-info-piece">
+            <b>Count write query</b>
+            <span class="sf-toolbar-status">{{ collector.dump.countWriteQuery }}</span>
+        </div>
+        <div class="sf-toolbar-info-piece">
+            <b>Total count query</b>
+            <span class="sf-toolbar-status {{ collector.dump.totalCountQuery > 50 ? 'sf-toolbar-status-yellow' : '' }}">
+                {{ collector.dump.totalCountQuery }}
+            </span>
+        </div>
+        <div class="sf-toolbar-info-piece">
+            <b>Query time</b>
+            <span>{{ '%0.2f'|format(collector.dump.totalTimeRunQuery * 1000) }} ms</span>
+        </div>
+    {% endset %}
+
+    {{ include('@WebProfiler/Profiler/toolbar_item.html.twig', { 'link': true }) }}
+{% endblock %}
+
+{% block menu %}
+    <span class="label {% if collector.dump.isEmpty %} disabled {% endif %}">
+        <span class="icon">
+            {{ include('@SpiralDatabase/data_collector/icon.svg') }}
+        </span>
+        <strong>Spiral Database</strong>
+    </span>
+{% endblock %}
+
+{% block panel %}
+    <h2>Query Metrics</h2>
+    <div class="metrics">
+        <div class="metric">
+            <span class="value">{{ collector.dump.countReadQuery }}</span>
+            <span class="label">Count Read Query</span>
+        </div>
+        <div class="metric">
+            <span class="value">{{ collector.dump.countWriteQuery }}</span>
+            <span class="label">Count Write Query</span>
+        </div>
+    </div>
+
+    {{ dump(collector.dump.queries) }}
+{% endblock %}
