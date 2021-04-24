@@ -18,8 +18,10 @@ final class DatabaseConfigBuilder
     public static function build(array $config): DatabaseConfig
     {
         foreach ($config['connections'] as $name => &$connection) {
+            $driver = $connection['driver'];
+
             $connection = new Autowire(
-                $connection['driver'],
+                $driver,
                 ['options' => $connection['options'], 'name' => $name]
             );
         }

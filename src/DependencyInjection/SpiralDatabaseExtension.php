@@ -10,6 +10,13 @@ declare(strict_types=1);
 
 namespace Spiral\Bundle\Database\DependencyInjection;
 
+use Spiral\Database\Driver\DriverInterface;
+use Spiral\Database\Driver\MySQL\MySQLDriver;
+use Spiral\Database\Driver\Postgres\PostgresDriver;
+use Spiral\Database\Driver\SQLite\SQLiteDriver;
+use Spiral\Database\Driver\SQLServer\SQLServerDriver;
+use Spiral\Database\Exception\DriverException;
+use Symfony\Component\Config\Definition\ConfigurationInterface;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Extension\Extension;
@@ -17,6 +24,13 @@ use Symfony\Component\DependencyInjection\Loader\PhpFileLoader;
 
 final class SpiralDatabaseExtension extends Extension
 {
+    private const DRIVERS = [
+        'mysql'  => MySQLDriver::class,
+        'sqlite' => SQLiteDriver::class,
+        'sqlsrv' => SQLServerDriver::class,
+        'pgsql'  => PostgresDriver::class,
+    ];
+
     /**
      * @param array<mixed> $configs
      *
@@ -29,8 +43,34 @@ final class SpiralDatabaseExtension extends Extension
         $loader->load('service.php');
 
         $configuration = new Configuration();
-        $config        = $this->processConfiguration($configuration, $configs);
+        $config        = $this->getVanillaConfiguration($configuration, $configs);
 
         $container->setParameter('spiral.database.vanilla_config', $config);
+    }
+
+    private function getVanillaConfiguration(ConfigurationInterface $configuration, array $configs): array
+    {
+        $config = $this->processConfiguration($configuration, $configs);
+
+        foreach ($config['connections'] as &$connection) {
+            $driver = self::DRIVERS[$connection['driver']] ?? $connection['driver'];
+
+            if (!$this->isSupportDriver($driver)) {
+                throw new DriverException(sprintf('This dbal driver %s does not support', $driver));
+            }
+
+            $connection['driver'] = $driver;
+        }
+
+        return $config;
+    }
+
+    private function isSupportDriver(string $driver): bool
+    {
+        if (!class_exists($driver) && !is_subclass_of($driver, DriverInterface::class)) {
+            return false;
+        }
+
+        return true;
     }
 }

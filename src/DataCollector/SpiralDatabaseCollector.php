@@ -19,16 +19,28 @@ use Symfony\Component\HttpFoundation\Response;
 final class SpiralDatabaseCollector implements TemplateAwareDataCollectorInterface
 {
     /**
-     * @var QueryLogger
+     * @var array<QueryLogger>
      */
-    private $queryLogger;
+    private $queryLoggers;
+
+    /**
+     * @var array<string,mixed>
+     */
+    private $config;
 
     /**
      * SpiralDatabaseCollector constructor.
+     *
+     * @param \IteratorAggregate<QueryLogger> $queryLoggers
+     * @param array<string,mixed>             $config
      */
-    public function __construct(QueryLogger $queryLogger)
+    public function __construct(\IteratorAggregate $queryLoggers, array $config)
     {
-        $this->queryLogger = $queryLogger;
+        /*
+         * callback not supported serialization
+         */
+        $this->queryLoggers = iterator_to_array($queryLoggers);
+        $this->config       = $config;
     }
 
     public function collect(Request $request, Response $response, ?\Throwable $exception = null): void
@@ -37,7 +49,7 @@ final class SpiralDatabaseCollector implements TemplateAwareDataCollectorInterfa
 
     public static function getTemplate(): ?string
     {
-        return '@SpiralDatabase/data_collector/template.html.twig';
+        return '@SpiralDatabase/data_collector/layout.html.twig';
     }
 
     public function getName(): string
@@ -45,13 +57,82 @@ final class SpiralDatabaseCollector implements TemplateAwareDataCollectorInterfa
         return 'spiral.database';
     }
 
-    public function dump(): Dump
+    /**
+     * @return \Generator<Dump>
+     */
+    public function dumps(): \Generator
     {
-        return $this->queryLogger->dump();
+        foreach ($this->queryLoggers as $queryLogger) {
+            yield $queryLogger->dump();
+        }
+    }
+
+    public function hasConnections(): bool
+    {
+        return [] !== $this->queryLoggers;
+    }
+
+    public function isEmpty(): bool
+    {
+        foreach ($this->queryLoggers as $queryLogger) {
+            if (!$queryLogger->dump()->isEmpty()) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    public function getTotalTimeRunQuery(): float
+    {
+        return $this->aggregateMetric('totalTimeRunQuery');
+    }
+
+    public function getCountReadQuery(): int
+    {
+        return $this->aggregateMetric('countReadQuery');
+    }
+
+    public function getCountWriteQuery(): int
+    {
+        return $this->aggregateMetric('countWriteQuery');
+    }
+
+    public function getTotalCountQuery(): int
+    {
+        return $this->aggregateMetric('totalCountQuery');
+    }
+
+    /**
+     * @return \Generator<array{name:string, driver: name}>
+     */
+    public function getConnections(): \Generator
+    {
+        foreach ($this->config['connections'] as $name => $connection) {
+            yield ['name' => $name, 'driver' => $connection['driver']];
+        }
     }
 
     public function reset(): void
     {
-        $this->queryLogger->reset();
+        foreach ($this->queryLoggers as $queryLogger) {
+            $queryLogger->reset();
+        }
+    }
+
+    /**
+     * @template T of int|float
+     *
+     * @return T
+     */
+    private function aggregateMetric(string $property)
+    {
+        $total = 0;
+
+        foreach ($this->queryLoggers  as $queryLogger) {
+            $total += call_user_func([$queryLogger->dump(), 'get' . ucfirst($property)]);
+        }
+
+        return $total;
     }
 }

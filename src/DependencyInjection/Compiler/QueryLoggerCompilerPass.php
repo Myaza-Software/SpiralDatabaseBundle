@@ -23,13 +23,21 @@ final class QueryLoggerCompilerPass implements CompilerPassInterface
             return;
         }
 
-        $container->register('spiral.query_logger', QueryLogger::class)
-            ->setArguments([
-                new Reference('spiral.query_parser'),
-                $container->hasDefinition('monolog.logger') ? new Reference('monolog.logger') : null,
-            ])
-            ->addTag('monolog.logger', ['channel' => 'spiral.dbal'])
-            ->addTag('kernel.reset', ['method' => 'reset'])
-        ;
+        $config         = $container->getParameter('spiral.database.vanilla_config');
+        $refMonolog     = $container->hasDefinition('monolog.logger') ? new Reference('monolog.logger') : null;
+        $refQueryParser = new Reference('spiral.query_analyzer');
+
+        foreach ($config['connections'] as $name => $connection) {
+            $container->register(sprintf('spiral.%s.query_logger', $name), QueryLogger::class)
+                ->setArguments([
+                    $name,
+                    $refQueryParser,
+                    $refMonolog,
+                ])
+                 ->addTag('spiral.query_logger')
+                 ->addTag('kernel.reset', ['method' => 'reset'])
+                 ->addTag('monolog.logger', ['channel' => 'spiral.dbal'])
+            ;
+        }
     }
 }

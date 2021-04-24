@@ -11,7 +11,6 @@ declare(strict_types=1);
 namespace Spiral\Bundle\Database;
 
 use Spiral\Bundle\Database\DependencyInjection\Compiler\DatabaseCompiler;
-use Spiral\Bundle\Database\DependencyInjection\Compiler\DatabaseManagerCompilerPass;
 use Spiral\Bundle\Database\DependencyInjection\Compiler\DriverCompilerPass;
 use Spiral\Bundle\Database\DependencyInjection\Compiler\QueryLoggerCompilerPass;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -24,7 +23,6 @@ final class SpiralDatabaseBundle extends Bundle
         $container->addCompilerPass(new QueryLoggerCompilerPass());
         $container->addCompilerPass(new DriverCompilerPass());
         $container->addCompilerPass(new DatabaseCompiler());
-        $container->addCompilerPass(new DatabaseManagerCompilerPass());
     }
 
     public function getPath(): string

@@ -13,23 +13,46 @@ namespace Spiral\Bundle\Database\Logger;
 final class Dump
 {
     /**
-     * @var int
+     * @var string
      */
-    private $countReadQuery = 0;
+    private $connection;
 
     /**
      * @var int
      */
-    private $countWriteQuery = 0;
+    private $countReadQuery;
+
+    /**
+     * @var int
+     */
+    private $countWriteQuery;
 
     /**
      * @var array<Query>
      */
-    private $queries = [];
+    private $queries;
+
+    /**
+     * @var float
+     */
+    private $totalTimeRunQuery;
+
+    /**
+     * Dump constructor.
+     */
+    public function __construct(string $connection)
+    {
+        $this->totalTimeRunQuery = 0;
+        $this->countWriteQuery   = 0;
+        $this->countReadQuery    = 0;
+        $this->queries           = [];
+        $this->connection        = $connection;
+    }
 
     public function addQuery(Query $query): void
     {
         $this->queries[] = $query;
+        $this->totalTimeRunQuery += $query->getElapsed();
     }
 
     public function incrementReadQuery(): void
@@ -72,12 +95,16 @@ final class Dump
 
     public function getTotalTimeRunQuery(): float
     {
-        $total = 0;
+        return $this->totalTimeRunQuery;
+    }
 
-        foreach ($this->queries as $query) {
-            $total += $query->getElapsed();
-        }
+    public function getConnection(): string
+    {
+        return $this->connection;
+    }
 
-        return $total;
+    public function withConnection(): self
+    {
+        return new self($this->connection);
     }
 }

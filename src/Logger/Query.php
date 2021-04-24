@@ -28,13 +28,19 @@ final class Query
     private $rowCount;
 
     /**
+     * @var bool
+     */
+    private $isWrite;
+
+    /**
      * Query constructor.
      */
-    public function __construct(string $sql, float $elapsed, int $rowCount)
+    public function __construct(string $sql, float $elapsed, int $rowCount, bool $isWrite)
     {
         $this->sql      = $sql;
         $this->elapsed  = $elapsed;
         $this->rowCount = $rowCount;
+        $this->isWrite  = $isWrite;
     }
 
     public function getSql(): string
@@ -50,5 +56,10 @@ final class Query
     public function getRowCount(): int
     {
         return $this->rowCount;
+    }
+
+    public function isWrite(): bool
+    {
+        return $this->isWrite;
     }
 }

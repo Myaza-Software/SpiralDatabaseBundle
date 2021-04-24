@@ -10,16 +10,14 @@ declare(strict_types=1);
 
 namespace Spiral\Bundle\Database\Logger;
 
+use Psr\Log\AbstractLogger;
 use Psr\Log\LoggerInterface;
-use Psr\Log\LoggerTrait;
 use Psr\Log\NullLogger;
-use Spiral\Bundle\Database\QueryParser;
+use Spiral\Bundle\Database\QueryAnalyzer\QueryAnalyzer;
 use Symfony\Contracts\Service\ResetInterface;
 
-final class QueryLogger implements LoggerInterface, ResetInterface
+final class QueryLogger extends AbstractLogger implements LoggerInterface, ResetInterface
 {
-    use LoggerTrait;
-
     /**
      * @var LoggerInterface
      */
@@ -31,18 +29,18 @@ final class QueryLogger implements LoggerInterface, ResetInterface
     private $dump;
 
     /**
-     * @var QueryParser
+     * @var QueryAnalyzer
      */
-    private $queryParser;
+    private $queryAnalyzer;
 
     /**
      * QueryLogger constructor.
      */
-    public function __construct(QueryParser $queryParser, ?LoggerInterface $logger = null)
+    public function __construct(string $connection, QueryAnalyzer $queryAnalyzer, ?LoggerInterface $logger = null)
     {
-        $this->dump        = new Dump();
-        $this->logger      = $logger ?? new NullLogger();
-        $this->queryParser = $queryParser;
+        $this->queryAnalyzer = $queryAnalyzer;
+        $this->dump          = new Dump($connection);
+        $this->logger        = $logger ?? new NullLogger();
     }
 
     /**
@@ -50,15 +48,23 @@ final class QueryLogger implements LoggerInterface, ResetInterface
      */
     public function log($level, $message, array $context = []): void
     {
-        if ($this->queryParser->isQuery($context)) {
-            if ($this->queryParser->isWriteQuery($message)) {
-                $this->dump->incrementWriteQuery();
-            } else {
-                $this->dump->incrementReadQuery();
-            }
+        $analysis = $this->queryAnalyzer->analyze($message, $context);
 
-            $this->dump->addQuery(new Query($message, $context['elapsed'], $context['rowCount']));
+        if (!$analysis->hasQuery()) {
+            $this->logger->log($level, $message, $context);
+
+            return;
         }
+
+        $query = $analysis->getQuery();
+
+        if ($query->isWrite()) {
+            $this->dump->incrementWriteQuery();
+        } else {
+            $this->dump->incrementReadQuery();
+        }
+
+        $this->dump->addQuery($query);
 
         $this->logger->log($level, $message, $context);
     }
@@ -70,6 +76,6 @@ final class QueryLogger implements LoggerInterface, ResetInterface
 
     public function reset(): void
     {
-        $this->dump = new Dump();
+        $this->dump->withConnection();
     }
 }

@@ -11,9 +11,12 @@ declare(strict_types=1);
 use Spiral\Bridge\Core\ServiceFactory;
 use Spiral\Bundle\Database\DatabaseConfigBuilder;
 use Spiral\Bundle\Database\DataCollector\SpiralDatabaseCollector;
-use Spiral\Bundle\Database\QueryParser;
+use Spiral\Bundle\Database\QueryAnalyzer\QueryAnalyzer;
+use Spiral\Bundle\Database\QueryFormatterExtension;
 use Spiral\Bundle\Database\ServiceIdResolver\DriverResolver;
 use Spiral\Database\Config\DatabaseConfig;
+use Spiral\Database\DatabaseManager;
+use Spiral\Database\DatabaseProviderInterface;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use function Symfony\Component\DependencyInjection\Loader\Configurator\param;
 use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
@@ -38,14 +41,27 @@ return static function (ContainerConfigurator $di): void {
                 param('spiral.database.vanilla_config')
             ])
 
-        ->set('spiral.query_parser', QueryParser::class)
+        ->set('spiral.dbal', DatabaseManager::class)
+            ->args([
+                service('spiral.database.config'),
+                service('spiral.database.service_factory')
+            ])
+            ->public()
+            ->alias(DatabaseProviderInterface::class,'spiral.dbal')
+            ->alias(DatabaseManager::class,'spiral.dbal')
 
         ->set('spiral.database.collector', SpiralDatabaseCollector::class)
             ->args([
-                service('spiral.query_logger')
+                tagged_iterator('spiral.query_logger'),
+                param('spiral.database.vanilla_config')
             ])
             ->tag('data_collector',[
                 'id' => 'spiral.database'
             ])
+
+        ->set('spiral.query_analyzer', QueryAnalyzer::class)
+
+        ->set('spiral.query_formatter.extension', QueryFormatterExtension::class)
+            ->tag('twig.extension')
     ;
 };
