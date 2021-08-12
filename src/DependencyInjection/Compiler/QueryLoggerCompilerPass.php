@@ -15,6 +15,9 @@ use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
 
+/**
+ * @phpstan-type SpiralConfig array{default: string, aliases: array<string,string>,databases: array<string, array<string,string>>,connections: array<string, array{driver:string, options:array<string,string>}>}
+ */
 final class QueryLoggerCompilerPass implements CompilerPassInterface
 {
     public function process(ContainerBuilder $container): void
@@ -23,7 +26,8 @@ final class QueryLoggerCompilerPass implements CompilerPassInterface
             return;
         }
 
-        $config         = $container->getParameter('spiral.database.vanilla_config');
+        /** @var SpiralConfig $config */
+        $config          = $container->getParameter('spiral.database.vanilla_config');
         $refMonolog     = $container->hasDefinition('monolog.logger') ? new Reference('monolog.logger') : null;
         $refQueryParser = new Reference('spiral.query_analyzer');
 

@@ -16,10 +16,14 @@ use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
 
+/**
+ * @phpstan-type SpiralConfig array{default: string, aliases: array<string,string>,databases: array<string, array<string,string>>,connections: array<string, array{driver:string, options:array<string,string>}>}
+ */
 final class DatabaseCompiler implements CompilerPassInterface
 {
     public function process(ContainerBuilder $container): void
     {
+        /** @var SpiralConfig $config */
         $config = $container->getParameter('spiral.database.vanilla_config');
 
         foreach ($config['databases'] as $name => $database) {

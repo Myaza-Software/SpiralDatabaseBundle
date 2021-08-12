@@ -38,6 +38,7 @@ final class Analysis
             throw new \LogicException('Not found query');
         }
 
+        /** @phpstan-ignore-next-line */
         return $this->query;
     }
 }

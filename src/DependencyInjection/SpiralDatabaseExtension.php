@@ -22,6 +22,9 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Extension\Extension;
 use Symfony\Component\DependencyInjection\Loader\PhpFileLoader;
 
+/**
+ * @phpstan-type SpiralConfig array{default: string, aliases: array<string,string>,databases: array<string, array<string,string>>,connections: array<string, array{driver:string, options:array<string,string>}>}
+ */
 final class SpiralDatabaseExtension extends Extension
 {
     private const DRIVERS = [
@@ -32,7 +35,7 @@ final class SpiralDatabaseExtension extends Extension
     ];
 
     /**
-     * @param array<mixed> $configs
+     * @param array<string,string> $configs
      *
      * @throws \Exception
      */
@@ -48,8 +51,14 @@ final class SpiralDatabaseExtension extends Extension
         $container->setParameter('spiral.database.vanilla_config', $config);
     }
 
+    /**
+     * @param array<string,string>   $configs
+     *
+     * @return SpiralConfig
+     */
     private function getVanillaConfiguration(ConfigurationInterface $configuration, array $configs): array
     {
+        /** @var SpiralConfig $config */
         $config = $this->processConfiguration($configuration, $configs);
 
         foreach ($config['connections'] as &$connection) {

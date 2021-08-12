@@ -76,6 +76,6 @@ final class QueryLogger extends AbstractLogger implements LoggerInterface, Reset
 
     public function reset(): void
     {
-        $this->dump->withConnection();
+        $this->dump = $this->dump->withConnection();
     }
 }

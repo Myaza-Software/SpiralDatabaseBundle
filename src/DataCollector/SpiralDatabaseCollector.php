@@ -85,26 +85,34 @@ final class SpiralDatabaseCollector implements TemplateAwareDataCollectorInterfa
 
     public function getTotalTimeRunQuery(): float
     {
-        return $this->aggregateMetric('totalTimeRunQuery');
+        return $this->aggregateMetric(function (Dump $dump): float {
+            return $dump->getTotalTimeRunQuery();
+        });
     }
 
     public function getCountReadQuery(): int
     {
-        return $this->aggregateMetric('countReadQuery');
+        return (int) $this->aggregateMetric(function (Dump $dump): int {
+            return $dump->getCountReadQuery();
+        });
     }
 
     public function getCountWriteQuery(): int
     {
-        return $this->aggregateMetric('countWriteQuery');
+        return (int) $this->aggregateMetric(function (Dump $dump): int {
+            return $dump->getCountWriteQuery();
+        });
     }
 
     public function getTotalCountQuery(): int
     {
-        return $this->aggregateMetric('totalCountQuery');
+        return (int) $this->aggregateMetric(function (Dump $dump): int {
+            return $dump->getTotalCountQuery();
+        });
     }
 
     /**
-     * @return \Generator<array{name:string, driver: name}>
+     * @return \Generator<array{name:string, driver: string}>
      */
     public function getConnections(): \Generator
     {
@@ -121,16 +129,14 @@ final class SpiralDatabaseCollector implements TemplateAwareDataCollectorInterfa
     }
 
     /**
-     * @template T of int|float
-     *
-     * @return T
+     * @param callable(Dump): (int|float) $callback
      */
-    private function aggregateMetric(string $property)
+    private function aggregateMetric(callable $callback): float
     {
         $total = 0;
 
         foreach ($this->queryLoggers  as $queryLogger) {
-            $total += call_user_func([$queryLogger->dump(), 'get' . ucfirst($property)]);
+            $total += $callback($queryLogger->dump());
         }
 
         return $total;

@@ -13,8 +13,17 @@ namespace Spiral\Bundle\Database;
 use Spiral\Core\Container\Autowire;
 use Spiral\Database\Config\DatabaseConfig;
 
+/**
+ * @internal
+ * @phpstan-type SpiralConfig array{default: string, aliases: array<string,string>,databases: array<string, array<string,string>>,connections: array<string, array{driver:string, options:array<string,string>}>}
+ */
 final class DatabaseConfigBuilder
 {
+    /**
+     * @param SpiralConfig $config
+     *
+     * @return DatabaseConfig<SpiralConfig>
+     */
     public static function build(array $config): DatabaseConfig
     {
         foreach ($config['connections'] as $name => &$connection) {
