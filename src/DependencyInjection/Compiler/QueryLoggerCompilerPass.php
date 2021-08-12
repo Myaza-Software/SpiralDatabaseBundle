@@ -27,7 +27,7 @@ final class QueryLoggerCompilerPass implements CompilerPassInterface
         }
 
         /** @var SpiralConfig $config */
-        $config          = $container->getParameter('spiral.database.vanilla_config');
+        $config         = $container->getParameter('spiral.database.vanilla_config');
         $refMonolog     = $container->hasDefinition('monolog.logger') ? new Reference('monolog.logger') : null;
         $refQueryParser = new Reference('spiral.query_analyzer');
 

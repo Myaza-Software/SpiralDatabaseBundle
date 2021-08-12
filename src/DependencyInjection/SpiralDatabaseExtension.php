@@ -52,7 +52,7 @@ final class SpiralDatabaseExtension extends Extension
     }
 
     /**
-     * @param array<string,string>   $configs
+     * @param array<string,string> $configs
      *
      * @return SpiralConfig
      */

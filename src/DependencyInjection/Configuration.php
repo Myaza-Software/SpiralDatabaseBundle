@@ -28,10 +28,9 @@ final class Configuration implements ConfigurationInterface
         return $treeBuilder;
     }
 
-
     private function addDbalSection(ArrayNodeDefinition $node): void
     {
-        /**
+        /*
          * @phpstan-ignore-next-line
          */
         $node
