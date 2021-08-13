@@ -29,7 +29,7 @@ return static function (ContainerConfigurator $di): void {
         ->set('spiral.database.service_factory', ServiceFactory::class)
             ->args([
                 service('service_container'),
-                tagged_iterator('spiral.database.service_id_resolver')
+                tagged_iterator('spiral.database.service_id_resolver'),
             ])
 
         ->set('spiral.database.driver_resolver', DriverResolver::class)
@@ -38,25 +38,25 @@ return static function (ContainerConfigurator $di): void {
         ->set('spiral.database.config', DatabaseConfig::class)
             ->factory([DatabaseConfigBuilder::class, 'build'])
             ->args([
-                param('spiral.database.vanilla_config')
+                param('spiral.database.vanilla_config'),
             ])
 
         ->set('spiral.dbal', DatabaseManager::class)
             ->args([
                 service('spiral.database.config'),
-                service('spiral.database.service_factory')
+                service('spiral.database.service_factory'),
             ])
             ->public()
-            ->alias(DatabaseProviderInterface::class,'spiral.dbal')
-            ->alias(DatabaseManager::class,'spiral.dbal')
+            ->alias(DatabaseProviderInterface::class, 'spiral.dbal')
+            ->alias(DatabaseManager::class, 'spiral.dbal')
 
         ->set('spiral.database.collector', SpiralDatabaseCollector::class)
             ->args([
                 tagged_iterator('spiral.query_logger'),
-                param('spiral.database.vanilla_config')
+                param('spiral.database.vanilla_config'),
             ])
-            ->tag('data_collector',[
-                'id' => 'spiral.database'
+            ->tag('data_collector', [
+                'id' => 'spiral.database',
             ])
 
         ->set('spiral.query_analyzer', QueryAnalyzer::class)
