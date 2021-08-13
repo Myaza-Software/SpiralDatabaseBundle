@@ -16,7 +16,7 @@ use Psr\Log\NullLogger;
 use Spiral\Bundle\Database\QueryAnalyzer\QueryAnalyzer;
 use Symfony\Contracts\Service\ResetInterface;
 
-final class QueryLogger extends AbstractLogger implements LoggerInterface, ResetInterface
+final class QueryLogger extends AbstractLogger implements ResetInterface
 {
     /**
      * @var LoggerInterface
