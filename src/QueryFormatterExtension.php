@@ -10,6 +10,7 @@ declare(strict_types=1);
 
 namespace Spiral\Bundle\Database;
 
+use Doctrine\SqlFormatter\Highlighter;
 use Doctrine\SqlFormatter\HtmlHighlighter;
 use Doctrine\SqlFormatter\SqlFormatter;
 use Twig\Extension\AbstractExtension;
@@ -25,16 +26,16 @@ final class QueryFormatterExtension extends AbstractExtension
     public function __construct()
     {
         $this->sqlFormatter = new SqlFormatter(new HtmlHighlighter([
-            HtmlHighlighter::HIGHLIGHT_PRE            => 'class="highlight highlight-sql"',
-            HtmlHighlighter::HIGHLIGHT_QUOTE          => 'class="string"',
-            HtmlHighlighter::HIGHLIGHT_BACKTICK_QUOTE => 'class="string"',
-            HtmlHighlighter::HIGHLIGHT_RESERVED       => 'class="keyword"',
-            HtmlHighlighter::HIGHLIGHT_BOUNDARY       => 'class="symbol"',
-            HtmlHighlighter::HIGHLIGHT_NUMBER         => 'class="number"',
-            HtmlHighlighter::HIGHLIGHT_WORD           => 'class="word"',
-            HtmlHighlighter::HIGHLIGHT_ERROR          => 'class="error"',
-            HtmlHighlighter::HIGHLIGHT_COMMENT        => 'class="comment"',
-            HtmlHighlighter::HIGHLIGHT_VARIABLE       => 'class="variable"',
+            HtmlHighlighter::HIGHLIGHT_PRE        => 'class="highlight highlight-sql"',
+            Highlighter::HIGHLIGHT_QUOTE          => 'class="string"',
+            Highlighter::HIGHLIGHT_BACKTICK_QUOTE => 'class="string"',
+            Highlighter::HIGHLIGHT_RESERVED       => 'class="keyword"',
+            Highlighter::HIGHLIGHT_BOUNDARY       => 'class="symbol"',
+            Highlighter::HIGHLIGHT_NUMBER         => 'class="number"',
+            Highlighter::HIGHLIGHT_WORD           => 'class="word"',
+            Highlighter::HIGHLIGHT_ERROR          => 'class="error"',
+            Highlighter::HIGHLIGHT_COMMENT        => 'class="comment"',
+            Highlighter::HIGHLIGHT_VARIABLE       => 'class="variable"',
         ]));
     }
 

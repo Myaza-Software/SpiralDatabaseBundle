@@ -23,15 +23,6 @@ final class QueryAnalyzer
         'drop',
     ];
 
-    private const QUERY_POSTGRES_PATTERN = [
-        'tc.constraint_name',
-        'pg_indexes',
-        'tc.constraint_name',
-        'pg_constraint',
-        'information_schema',
-        'pg_class',
-    ];
-
     /**
      * @param array<string,mixed> $context
      */
@@ -63,23 +54,8 @@ final class QueryAnalyzer
     {
         $query = strtolower($query);
 
-        if ($this->isPostgresSystemQuery($query)) {
-            return false;
-        }
-
         foreach (self::QUERY_WRITE_PATTERN as $pattern) {
             if (0 === strpos($query, $pattern)) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    private function isPostgresSystemQuery(string $query): bool
-    {
-        foreach (self::QUERY_POSTGRES_PATTERN as $pattern) {
-            if (strpos($query, $pattern)) {
                 return true;
             }
         }

@@ -1,4 +1,7 @@
 <p align="center">
+    <a href="https://github.com/Myaza-Software" target="_blank">
+        <img src="https://myaza-software.github.io/storage/spiral_dbal/icon.png" height="300px">
+    </a>
     <h1 align="center">Spiral Database Bundle</h1>
 </p>
 
