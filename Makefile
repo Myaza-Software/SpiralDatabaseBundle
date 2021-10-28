@@ -6,3 +6,9 @@ fix-code-style:
 
 analyse:
 	@ vendor/bin/phpstan analyse -c phpstan.neon
+
+testing:
+	@ vendor/bin/phpunit
+
+infection:
+	@ XDEBUG_MODE=coverage vendor/bin/infection --threads=10 --show-mutations

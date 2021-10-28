@@ -1,10 +1,13 @@
 <p align="center">
-    <h1 align="center">Spiral Database Bundle</h1>
+    <a href="https://github.com/Myaza-Software" target="_blank">
+        <img src="https://cycle-orm.dev/cycle.png" height="300px" alt="Cycle ORM"/>
+    </a>
+    <h1 align="center">Cycle Database Bundle</h1>
 </p>
 
 Description
 -------------------------
-Spiral DBAL for Symfony
+Cycle DBAL for Symfony
 
 Feature:
 -------------------------
@@ -21,5 +24,5 @@ Requirements
 The package could be installed with composer:
 
 ```
-composer install myaza-software/spiral-database-bundle
+composer install myaza-software/cycle-database-bundle
 ```

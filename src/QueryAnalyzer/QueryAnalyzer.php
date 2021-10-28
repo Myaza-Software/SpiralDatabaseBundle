@@ -1,6 +1,6 @@
 <?php
 /**
- * Spiral Database Bundle
+ * Cycle Database Bundle
  *
  * @author Vlad Shashkov <root@myaza.info>
  * @copyright Copyright (c) 2021, The Myaza Software
@@ -8,9 +8,9 @@
 
 declare(strict_types=1);
 
-namespace Spiral\Bundle\Database\QueryAnalyzer;
+namespace Cycle\Bundle\Database\QueryAnalyzer;
 
-use Spiral\Bundle\Database\Logger\Query;
+use Cycle\Bundle\Database\Logger\Query;
 
 final class QueryAnalyzer
 {
@@ -21,15 +21,6 @@ final class QueryAnalyzer
         'create',
         'alter',
         'drop',
-    ];
-
-    private const QUERY_POSTGRES_PATTERN = [
-        'tc.constraint_name',
-        'pg_indexes',
-        'tc.constraint_name',
-        'pg_constraint',
-        'information_schema',
-        'pg_class',
     ];
 
     /**
@@ -63,23 +54,8 @@ final class QueryAnalyzer
     {
         $query = strtolower($query);
 
-        if ($this->isPostgresSystemQuery($query)) {
-            return false;
-        }
-
         foreach (self::QUERY_WRITE_PATTERN as $pattern) {
             if (0 === strpos($query, $pattern)) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    private function isPostgresSystemQuery(string $query): bool
-    {
-        foreach (self::QUERY_POSTGRES_PATTERN as $pattern) {
-            if (strpos($query, $pattern)) {
                 return true;
             }
         }

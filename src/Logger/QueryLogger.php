@@ -1,6 +1,6 @@
 <?php
 /**
- * Spiral Database Bundle
+ * Cycle Database Bundle
  *
  * @author Vlad Shashkov <root@myaza.info>
  * @copyright Copyright (c) 2021, The Myaza Software
@@ -8,12 +8,12 @@
 
 declare(strict_types=1);
 
-namespace Spiral\Bundle\Database\Logger;
+namespace Cycle\Bundle\Database\Logger;
 
+use Cycle\Bundle\Database\QueryAnalyzer\QueryAnalyzer;
 use Psr\Log\AbstractLogger;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
-use Spiral\Bundle\Database\QueryAnalyzer\QueryAnalyzer;
 use Symfony\Contracts\Service\ResetInterface;
 
 final class QueryLogger extends AbstractLogger implements ResetInterface
