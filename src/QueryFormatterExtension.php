@@ -45,8 +45,8 @@ final class QueryFormatterExtension extends AbstractExtension
     public function getFilters(): array
     {
         return [
-            new TwigFilter('Cycle_prettify_sql', [$this, 'prettifySql'], ['is_safe' => ['html']]),
-            new TwigFilter('Cycle_format_sql', [$this, 'formatSql'], ['is_safe' => ['html']]),
+            new TwigFilter('cycle_prettify_sql', [$this, 'prettifySql'], ['is_safe' => ['html']]),
+            new TwigFilter('cycle_format_sql', [$this, 'formatSql'], ['is_safe' => ['html']]),
         ];
     }
 
