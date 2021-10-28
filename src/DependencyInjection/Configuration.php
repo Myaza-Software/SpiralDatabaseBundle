@@ -1,6 +1,6 @@
 <?php
 /**
- * Spiral Database Bundle
+ * Cycle Database Bundle
  *
  * @author Vlad Shashkov <root@myaza.info>
  * @copyright Copyright (c) 2021, The Myaza Software
@@ -8,7 +8,7 @@
 
 declare(strict_types=1);
 
-namespace Spiral\Bundle\Database\DependencyInjection;
+namespace Cycle\Bundle\Database\DependencyInjection;
 
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
@@ -18,7 +18,7 @@ final class Configuration implements ConfigurationInterface
 {
     public function getConfigTreeBuilder(): TreeBuilder
     {
-        $treeBuilder = new TreeBuilder('spiral_dbal');
+        $treeBuilder = new TreeBuilder('Cycle_dbal');
 
         /** @var ArrayNodeDefinition $rootNode */
         $rootNode = $treeBuilder->getRootNode();

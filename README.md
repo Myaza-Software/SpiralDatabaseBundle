@@ -7,7 +7,7 @@
 
 Description
 -------------------------
-Spiral DBAL for Symfony
+Cycle DBAL for Symfony
 
 Feature:
 -------------------------
@@ -24,5 +24,5 @@ Requirements
 The package could be installed with composer:
 
 ```
-composer install myaza-software/spiral-database-bundle
+composer install myaza-software/cycle-database-bundle
 ```

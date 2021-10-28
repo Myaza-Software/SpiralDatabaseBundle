@@ -1,6 +1,6 @@
 <?php
 /**
- * Spiral Database Bundle
+ * Cycle Database Bundle
  *
  * @author Vlad Shashkov <root@myaza.info>
  * @copyright Copyright (c) 2021, The Myaza Software
@@ -8,9 +8,9 @@
 
 declare(strict_types=1);
 
-namespace Spiral\Bundle\Database\QueryAnalyzer;
+namespace Cycle\Bundle\Database\QueryAnalyzer;
 
-use Spiral\Bundle\Database\Logger\Query;
+use Cycle\Bundle\Database\Logger\Query;
 
 final class QueryAnalyzer
 {

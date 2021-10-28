@@ -1,6 +1,6 @@
 <?php
 /**
- * Spiral Database Bundle
+ * Cycle Database Bundle
  *
  * @author Vlad Shashkov <root@myaza.info>
  * @copyright Copyright (c) 2021, The Myaza Software
@@ -8,10 +8,10 @@
 
 declare(strict_types=1);
 
-namespace Spiral\Bundle\Database\ServiceIdResolver;
+namespace Cycle\Bundle\Database\ServiceIdResolver;
 
-use Spiral\Bridge\Core\ServiceIdResolverInterface;
-use Spiral\Database\Driver\DriverInterface;
+use Cycle\Bridge\Core\ServiceIdResolverInterface;
+use Cycle\Database\Driver\DriverInterface;
 
 final class DriverResolver implements ServiceIdResolverInterface
 {
@@ -22,6 +22,6 @@ final class DriverResolver implements ServiceIdResolverInterface
 
     public function resolve(string $class, array $parameters): string
     {
-        return sprintf('spiral.%s.driver', $parameters['name']);
+        return sprintf('Cycle.%s.driver', $parameters['name']);
     }
 }

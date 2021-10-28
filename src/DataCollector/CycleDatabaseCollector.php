@@ -1,6 +1,6 @@
 <?php
 /**
- * Spiral Database Bundle
+ * Cycle Database Bundle
  *
  * @author Vlad Shashkov <root@myaza.info>
  * @copyright Copyright (c) 2021, The Myaza Software
@@ -8,15 +8,15 @@
 
 declare(strict_types=1);
 
-namespace Spiral\Bundle\Database\DataCollector;
+namespace Cycle\Bundle\Database\DataCollector;
 
-use Spiral\Bundle\Database\Logger\Dump;
-use Spiral\Bundle\Database\Logger\QueryLogger;
+use Cycle\Bundle\Database\Logger\Dump;
+use Cycle\Bundle\Database\Logger\QueryLogger;
 use Symfony\Bundle\FrameworkBundle\DataCollector\TemplateAwareDataCollectorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-final class SpiralDatabaseCollector implements TemplateAwareDataCollectorInterface
+final class CycleDatabaseCollector implements TemplateAwareDataCollectorInterface
 {
     /**
      * @var array<QueryLogger>
@@ -29,7 +29,7 @@ final class SpiralDatabaseCollector implements TemplateAwareDataCollectorInterfa
     private $config;
 
     /**
-     * SpiralDatabaseCollector constructor.
+     * CycleDatabaseCollector constructor.
      *
      * @param \IteratorAggregate<QueryLogger> $queryLoggers
      * @param array<string,mixed>             $config
@@ -49,12 +49,12 @@ final class SpiralDatabaseCollector implements TemplateAwareDataCollectorInterfa
 
     public static function getTemplate(): ?string
     {
-        return '@SpiralDatabase/data_collector/layout.html.twig';
+        return '@CycleDatabase/data_collector/layout.html.twig';
     }
 
     public function getName(): string
     {
-        return 'spiral.database';
+        return 'cycle.database';
     }
 
     /**

@@ -1,6 +1,6 @@
 <?php
 /**
- * Spiral Database Bundle
+ * Cycle Database Bundle
  *
  * @author Vlad Shashkov <root@myaza.info>
  * @copyright Copyright (c) 2021, The Myaza Software
@@ -8,21 +8,21 @@
 
 declare(strict_types=1);
 
-namespace Spiral\Bundle\Database;
+namespace Cycle\Bundle\Database;
 
+use Cycle\Database\Config\DatabaseConfig;
 use Spiral\Core\Container\Autowire;
-use Spiral\Database\Config\DatabaseConfig;
 
 /**
  * @internal
- * @phpstan-type SpiralConfig array{default: string, aliases: array<string,string>,databases: array<string, array<string,string>>,connections: array<string, array{driver:string, options:array<string,string>}>}
+ * @phpstan-type CycleConfig array{default: string, aliases: array<string,string>,databases: array<string, array<string,string>>,connections: array<string, array{driver:string, options:array<string,string>}>}
  */
 final class DatabaseConfigBuilder
 {
     /**
-     * @param SpiralConfig $config
+     * @param CycleConfig $config
      *
-     * @return DatabaseConfig<SpiralConfig>
+     * @return DatabaseConfig<CycleConfig>
      */
     public static function build(array $config): DatabaseConfig
     {

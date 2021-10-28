@@ -1,6 +1,6 @@
 <?php
 /**
- * Spiral Database Bundle
+ * Cycle Database Bundle
  *
  * @author Vlad Shashkov <root@myaza.info>
  * @copyright Copyright (c) 2021, The Myaza Software
@@ -8,10 +8,10 @@
 
 declare(strict_types=1);
 
-namespace Spiral\Bundle\Database\Test\Unit\QueryAnalyzer;
+namespace Cycle\Bundle\Database\Test\Unit\QueryAnalyzer;
 
+use Cycle\Bundle\Database\QueryAnalyzer\QueryAnalyzer;
 use PHPUnit\Framework\TestCase;
-use Spiral\Bundle\Database\QueryAnalyzer\QueryAnalyzer;
 
 final class QueryAnalyzerTest extends TestCase
 {

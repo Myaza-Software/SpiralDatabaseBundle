@@ -1,6 +1,6 @@
 <?php
 /**
- * Spiral Database Bundle
+ * Cycle Database Bundle
  *
  * @author Vlad Shashkov <root@myaza.info>
  * @copyright Copyright (c) 2021, The Myaza Software
@@ -8,11 +8,11 @@
 
 declare(strict_types=1);
 
-namespace Spiral\Bundle\Database\Test\Unit\ServiceIdResolver;
+namespace Cycle\Bundle\Database\Test\Unit\ServiceIdResolver;
 
+use Cycle\Bundle\Database\ServiceIdResolver\DriverResolver;
+use Cycle\Database\Driver\MySQL\MySQLDriver;
 use PHPUnit\Framework\TestCase;
-use Spiral\Bundle\Database\ServiceIdResolver\DriverResolver;
-use Spiral\Database\Driver\MySQL\MySQLDriver;
 
 final class DriverResolverTest extends TestCase
 {
@@ -44,7 +44,7 @@ final class DriverResolverTest extends TestCase
     {
         $parameters = ['name' => 'null'];
         $resolver   = new DriverResolver();
-        $expected   = sprintf('spiral.%s.driver', $parameters['name']);
+        $expected   = sprintf('Cycle.%s.driver', $parameters['name']);
 
         $this->assertEquals($expected, $resolver->resolve(MySQLDriver::class, $parameters));
     }

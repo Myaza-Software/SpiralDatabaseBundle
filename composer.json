@@ -1,7 +1,7 @@
 {
-  "name": "myaza-software/spiral-database-bundle",
+  "name": "myaza-software/cycle-database-bundle",
   "type": "symfony-bundle",
-  "description": "Bundle spiral-database for symfony",
+  "description": "Bundle cycle/database for symfony",
   "license": "MIT",
   "authors": [
     {
@@ -11,19 +11,19 @@
   ],
   "autoload": {
     "psr-4": {
-      "Spiral\\Bundle\\Database\\": "src/"
+      "Cycle\\Bundle\\Database\\": "src/"
     }
   },
   "autoload-dev": {
     "psr-4": {
-      "Spiral\\Bundle\\Database\\Test\\": "tests/"
+      "Cycle\\Bundle\\Database\\Test\\": "tests/"
     }
   },
   "require": {
     "php": ">=7.2",
+    "cycle/database": "^1.0",
     "doctrine/sql-formatter": "^1.1",
     "myaza-software/bridge-spiral-core": "^0.1",
-    "spiral/database": "^2.8.4",
     "symfony/config": "^4.3.3 || ^5.0",
     "symfony/console": "^4.3.3 || ^5.0",
     "symfony/dependency-injection": "^4.3.3 || ^5.0",

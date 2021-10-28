@@ -1,6 +1,6 @@
 # Конфигурация
 
-Конфигурация бандла полностью повторяет конфигуацию пакета  [spiral/dbal](https://spiral.dev/docs/database-configuration)
+``Driver`` - доступные значения: mysql,pgsql,sqlite,sqlsrv или кастомный класс драйвер
 
 Конфиг:
 
