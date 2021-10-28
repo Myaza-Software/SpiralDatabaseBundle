@@ -31,10 +31,10 @@
     "symfony/http-kernel": "^4.3.3 || ^5.0"
   },
   "require-dev": {
-    "infection/infection": "^0.23.0",
+    "phpunit/phpunit": ">=8.5",
+    "infection/infection": ">=0.15.3",
     "friendsofphp/php-cs-fixer": "^3.0",
     "phpstan/phpstan": "^0.12.84",
-    "phpunit/phpunit": "^9.5",
     "symfony/web-profiler-bundle": "^4.3.3|^5.0",
     "symfony/yaml": "^4.3.3 || ^5.0",
     "twig/twig": "^2.12|^3.0"
