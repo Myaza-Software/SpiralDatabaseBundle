@@ -10,8 +10,8 @@ declare(strict_types=1);
 
 namespace Cycle\Bundle\Database\ServiceIdResolver;
 
-use Spiral\Bridge\Core\ServiceIdResolverInterface;
 use Cycle\Database\Driver\DriverInterface;
+use Spiral\Bridge\Core\ServiceIdResolverInterface;
 
 final class DriverResolver implements ServiceIdResolverInterface
 {

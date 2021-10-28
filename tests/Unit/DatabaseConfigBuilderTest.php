@@ -14,6 +14,9 @@ use Cycle\Bundle\Database\DatabaseConfigBuilder;
 use PHPUnit\Framework\TestCase;
 use Spiral\Core\Container\Autowire;
 
+/**
+ * @phpstan-type CycleConfig array{default: string, aliases: array<string,string>,databases: array<string, array<string,string>>,connections: array<string, array{driver:string, options:array<string,string>}>}
+ */
 final class DatabaseConfigBuilderTest extends TestCase
 {
     public function testBuild(): void
@@ -30,6 +33,9 @@ final class DatabaseConfigBuilderTest extends TestCase
         }, null, $driver)($driver);
     }
 
+    /**
+     * @return CycleConfig
+     */
     private function getVanillaConfig(): array
     {
         return [
