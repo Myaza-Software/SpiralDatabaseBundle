@@ -6,7 +6,7 @@
         </include>
     </coverage>
     <testsuites>
-        <testsuite name="Spiral Database Bundle">
+        <testsuite name="Cycle Database Bundle">
             <directory>tests</directory>
         </testsuite>
     </testsuites>
